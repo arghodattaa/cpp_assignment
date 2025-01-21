@@ -1,0 +1,89 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class Book{
+  public:
+      string title;
+      string author;
+      string type;
+      Book(string ti, string au, string ty){
+         title= ti;
+         author=au;
+         type=ty;
+      }
+      Book(){}
+  void input();
+  void print(int booknuber);
+  void sprint();
+};
+
+int main(){
+    cout<<"To add a book in book List          Enter 1"<<endl;
+    cout<<"To see book list                    Enter 2"<<endl;
+    cout<<"to delete a book from book list     Enter 3"<<endl;
+    cout<<"to Exit                             Enter 0"<<endl;
+    vector<Book>vec;
+    Book book;
+
+   while(1){
+       char n;
+       cout<<"Enter Your choice : ";
+       cin>>n;
+       if((int)n<48 || (int)n>51){
+           cout<<"sorry sir, please Enter integer(0 to 3)"<<endl;
+       }
+    if(n=='1'){
+        book.input();
+        vec.push_back(book);
+    }
+    if(n=='2'){
+        if(vec.size()==0){
+            cout<<"NO BOOK IN THIS LIST SORRY"<<endl;
+            continue;
+        }
+        for(int i=0;i<vec.size();i++){
+            vec[0].print(i+1);
+            if(i==vec.size()-1)cout<<"**************************************************************"<<endl;
+        }
+    }
+    if(n=='3'){
+        int deletnumber;
+        cout<<"Which Book You want to delete form the book List? : ";
+       cin>> deletnumber;
+       if(deletnumber<1 || deletnumber>=vec.size()){
+           cout<<"Sorry sir , have nobook int the number "<<endl;
+           continue;
+       }
+       vec[deletnumber-1].sprint();
+       vec.erase(vec.begin()+deletnumber-1);
+       cout<<"This is Removed form the Book List"<<endl;
+    }
+    if(n=='0') return 0;
+}
+}
+void Book::input(){
+  cout<<"New Book Title : ";
+  cin>>title;
+  cout<<"New Book Author : ";
+  cin>>author;
+  cout<<"New Book Type : ";
+  cin>>type;
+  cout<<"New Book is added"<<endl;
+}
+void Book::print(int booknuber){
+    cout<<"*******************************";
+    cout<<"BOOK LIST";
+    cout<<"*******************************"<<endl;
+
+  cout<<"Book "<<booknuber<<endl;
+   cout<<"\tBook Title   : "<<title<<endl;
+   cout<<"\tBook Author  : "<<author<<endl;
+   cout<<"\tBook Type    : "<<type<<endl;
+}
+void Book::sprint(){
+
+   cout<<title<<" ";
+   cout<<author<<" ";
+   cout<<type<<" ";
+}
+
