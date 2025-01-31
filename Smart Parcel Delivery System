@@ -1,0 +1,146 @@
+#include<iostream>
+using namespace std;
+#include<stack>
+#include<queue>
+//suer define datatyp name Parcel
+struct Parcel{
+  int id;
+  float kg;
+  string location;
+  Parcel * left;
+  Parcel * right;
+  Parcel(){
+  }
+  Parcel(int id, float kg, string location){
+      this-> id = id;
+      this-> kg = kg;
+      this-> location = location;
+      this-> left = this-> right = nullptr;
+  }
+  public:
+      int ID(){
+          return this->id;
+      }
+      float KG(){
+          return this->kg;
+      }
+      string LO(){
+          return this->location;
+      }
+      void view(){
+        cout<<"\nParcel ID "<<this->id<<" , waght "<<kg<<" kg and the location "<<location<<"\n" ;
+
+      }
+      //void sowall(Parcel * root);
+};
+
+//make node for tree;ূ
+Parcel* makenode(int id, float kg, string location){
+
+    Parcel * newroot= new Parcel(id, kg, location);//parameterig constucttot call
+    return newroot;
+}
+
+//add parcel in binary tree;
+Parcel * incertnode(Parcel* root, int id, float kg, string location ){
+      if(root== nullptr)
+                  return makenode(id, kg, location);
+
+      if(id < root->id)
+                 incertnode(root->left, id, kg, location);
+
+      else if(id> root->id)
+                  incertnode(root->right, id, kg, location);
+
+      return root; //its run for same id number ;
+}
+
+//sowall element tree
+void  sowall(Parcel * root){
+       if(root == nullptr)
+                    return ;
+       sowall(root->left);
+       root->view();
+       cout<<"\n";
+       sowall(root->right);
+}
+
+Parcel * searchnood(Parcel * root , int key){
+     if(root == nullptr || root->id == key)
+                                     return root;
+
+     if(root->id < key)
+               searchnood(root->right , key);
+
+     if(root->id > key)
+               searchnood(root->left , key);
+}
+
+void input(int *x , float *y , string *z);
+int main(){
+ stack<Parcel>stackparcel;
+
+ queue<Parcel>queueparcel;
+
+ // root ofr binary tree;
+
+ Parcel * root = nullptr;
+
+ while(1){
+ cout<<"Add parcels to the warehouse, \"Enter 1\"\n";
+ cout<<"Process one parcel for delivert, \"Enter 2\"\n";
+ cout<<"Scerch for a parcel by its ID, \"Enter 3\"\n";
+ cout<<"Display all parcels shorted by their IDs, \"Enter 4\"\n";
+ cout<<"For Exit, \"Enter 0\"\n";
+
+ int number;
+ cout<<"Enter a number "; cin>>number;
+
+ if(number==1){
+          int id; float kg; string  location;
+          input(&id, &kg, &location);
+          Parcel temp(id, kg, location);
+
+          //add parcel in stack;
+          stackparcel.push(temp);
+
+          //add parcel in tree;
+          root = incertnode(root, id, kg, location);
+ } else if(number==2){
+
+      int x = stackparcel.top().ID();
+
+      float y = stackparcel.top().KG();
+
+      string z = stackparcel.top().LO();
+
+      Parcel temp(x, y, z);
+
+      queueparcel.push(temp);
+
+      stackparcel.pop();
+
+      cout<<"\nThe parcel ID "<<x<<" is ready for delivert \n";
+
+ }
+ else if(number == 3){
+        cout<<"\nInter the percel ID = ";
+        int key;
+        cin>>key;
+       Parcel * x = searchnood(root, key);
+       x->view();
+
+ }
+ else if(number ==4){
+    sowall(root);
+ }
+ else if(number =0)break;
+
+ }
+}
+
+void input(int *x , float *y , string *z){
+    cout <<"Enter parcel ID :";cin>>*x;
+    cout <<"Enter parcel Weight :";cin>>*y;
+    cout <<"Enter parcel Location :";cin>>*z;
+}
